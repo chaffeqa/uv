@@ -1,3 +1,6 @@
+/*
+ *= require_self
+*/
 pre.lazy .OcamlInfixFPOperator {
    text-decoration: underline;
 }
