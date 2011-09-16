@@ -12,7 +12,7 @@ module Uv
   self.syntax_path   = File.join(File.dirname(__FILE__), '..', 'syntax')
   self.render_path   = File.join(File.dirname(__FILE__), '..', 'render')
   #self.theme_path    = File.join(render_path, 'xhtml', 'files', 'css')
-  self.theme_path    = File.join(File.dirname(__FILE__), '..', 'app', 'assets', 'stylesheets')
+  self.theme_path    = File.join(File.dirname(__FILE__), '..', 'vendor', 'assets', 'stylesheets')
   self.default_style = 'mac_classic'
   self.syntaxes      = {}
   
