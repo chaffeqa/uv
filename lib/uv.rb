@@ -3,6 +3,7 @@ require 'fileutils'
 require 'textpow'
 require 'uv/render_processor.rb'
 require 'uv/version.rb'
+require 'uv/engine.rb'
 
 
 module Uv
