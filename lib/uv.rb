@@ -1,9 +1,10 @@
 #encoding: ascii-8bit
 require 'fileutils'
 require 'textpow'
-require 'uv/render_processor.rb'
-require 'uv/version.rb'
-require 'uv/engine.rb'
+require 'uv/render_processor'
+require "uv/version"
+require 'uv/utility'
+require 'uv/engine' if defined?(Rails)
 
 
 module Uv
