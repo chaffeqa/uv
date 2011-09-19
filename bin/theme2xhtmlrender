@@ -5,7 +5,9 @@ rescue LoadError
    require 'rubygems'
    require 'plist'
 end
-require 'uv'
+require 'yaml'
+puts "ERROR: YAML not included!!" unless defined?(YAML.dump)
+require 'uv/utility'
 
 base_dir = File.join( File.dirname(__FILE__), '..', 'render' )
 

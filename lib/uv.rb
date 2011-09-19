@@ -1,5 +1,4 @@
 #encoding: ascii-8bit
-require 'yaml'
 require 'fileutils'
 require 'textpow'
 require 'uv/render_processor'
