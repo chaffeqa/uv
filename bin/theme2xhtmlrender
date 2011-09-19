@@ -142,7 +142,7 @@ render["document"] = tag
 
 File.open( File.join( base_dir, "xhtml", "#{standard_name}.render" ), "w" ) {|f| YAML.dump( render, f ) }
 
-File.open( File.join( base_dir, "xhtml", "files", "css", "#{standard_name}.css" ), "w" ) do |f|
+File.open( File.join( "..", "vendor", "assets", "stylesheets", "#{standard_name}.css" ), "w" ) do |f|
    css.each do |key, values|
       if key == code_name
          f.puts "#{code_name} {"
