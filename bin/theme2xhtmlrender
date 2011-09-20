@@ -36,7 +36,7 @@ count_names = {}
       if class_name == ""
          class_name = "x" * t["name"].size
       end
-      
+
       if count_names[class_name]
          tname = class_name
          class_name = "#{class_name}#{count_names[class_name]}"
@@ -44,13 +44,13 @@ count_names = {}
       else
          count_names[class_name] = 1
       end
-      
+
       tag = {}
       tag["selector"] = t["scope"]
       tag["begin"] = "<span class=\"#{class_name}\">"
       tag["end"] = "</span>"
       render["tags"] << tag
-      
+
       if s = t["settings"]
          style = {}
          style["color"] = Uv.normalize_color(settings, s["foreground"], true)
@@ -73,7 +73,7 @@ count_names = {}
          style["background-color"] = Uv.alpha_blend(s["selection"], s["selection"])
          style["color"] = Uv.foreground( style["background-color"] )
          css[".line-numbers"] = style
-         
+
          tag = {}
          tag["begin"] = "<span class=\"line-numbers\">"
          tag["end"] = "</span>"
