@@ -5,9 +5,9 @@ require "uv/version"
 Gem::Specification.new do |s|
     s.name              = "ruby-uv"
     s.version           = Uv::VERSION
-    s.authors           = ["spox","Quinn"]
+    s.authors           = ["spox","chaffeqa"]
     s.email             = ["spox@modspox.com","chaffeqa@gmail.com"]
-    s.homepage          = ""
+    s.homepage          = "https://github.com/chaffeqa/ruby-uv"
     s.description       = "Ruby syntax highlighting"
     s.summary           = %q(ultraviolet in ruby 1.9+)
     
