@@ -1,13 +1,15 @@
 pre.railscasts {
    color: #E6E1DC;
-   background-color: #2B2B2B;
+   background-color: black;
+   /*background-color: #2B2B2B;   NOTE: this is original color*/
 }
 pre.railscasts .line-numbers {
    background-color: #5A647E;
    color: #FFFFFF;
 }
 pre.railscasts .Source {
-   background-color: #232323;
+  background-color: black;
+   /*background-color: #232323;  NOTE: this is original color*/
 }
 pre.railscasts .Comment {
    color: #BC9458;
