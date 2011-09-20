@@ -3,20 +3,20 @@ $:.push File.expand_path("../lib", __FILE__)
 require "uv/version"
 
 Gem::Specification.new do |s|
-    s.name              = "ruby-uv"
+    s.name              = "uv"
     s.version           = Uv::VERSION
     s.authors           = ["spox","chaffeqa"]
     s.email             = ["spox@modspox.com","chaffeqa@gmail.com"]
-    s.homepage          = "https://github.com/chaffeqa/ruby-uv"
+    s.homepage          = "https://github.com/chaffeqa/uv"
     s.description       = "Ruby syntax highlighting"
     s.summary           = %q(ultraviolet in ruby 1.9+)
-    
-    s.rubyforge_project = "ruby-uv"
-    
+
+    s.rubyforge_project = "uv"
+
     s.required_ruby_version = '>= 1.9.0'
-    s.add_dependency    'spox-textpow'    
+    s.add_dependency    'spox-textpow'
     s.add_dependency    'spox-plist'
-    
+
     s.files         = `git ls-files`.split("\n").delete_if {|f| f =~ /^broken_syntax/}
     s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
     s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }

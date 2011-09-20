@@ -18,12 +18,16 @@ module Uv
   self.theme_path    = File.join(File.dirname(__FILE__), '..', 'vendor', 'assets', 'stylesheets')
   self.default_style = 'mac_classic'
   self.syntaxes      = {}
-  
+
+  # Returns the root path for Uv ['bin','lib'...]
   def Uv.path
     result = []
     result << File.join(File.dirname(__FILE__), ".." )
   end
 
+  # Returns the Textpow::SyntaxNode for this syntax; 
+  # @raise ArgumentError if no syntax is found
+  # Ex: syntax_node_for('ruby') => Textpow::SyntaxNode.load('ruby.syntax')
   def self.syntax_node_for(syntax)
     if !@syntaxes.key?(syntax)
       filename = File.join(@syntax_path, "#{syntax}.syntax")
@@ -39,6 +43,7 @@ module Uv
     @syntaxes[syntax]
   end
 
+  # Copies files from the [ruby-uv/render/<arg1>/files/] to the <arg2> output directory
   def Uv.copy_files output, output_dir
     Uv.path.each do |dir|
       dir_name = File.join( dir, "render", output, "files" )
@@ -46,18 +51,23 @@ module Uv
     end
   end
 
+  # Returns the list of file names[.syntax] in the syntax dir
   def Uv.syntaxes
-    Dir.glob( File.join(@syntax_path, '*.syntax') ).collect do |f| 
+    Dir.glob( File.join(@syntax_path, '*.syntax') ).collect do |f|
       File.basename(f, '.syntax')
     end
   end
 
+  # Returns the list of .css files in the theme directory
   def Uv.themes
-    Dir.glob( File.join(@theme_path, '*.css') ).collect do |f| 
+    Dir.glob( File.join(@theme_path, '*.css') ).collect do |f|
       File.basename(f, '.css')
     end
   end
 
+  # Guesses the correct syntax based on the input files fileType.
+  # If the FileType doesnt containt a valid syntax name, each syntax
+  # has it's first line matched againts the the file's first line
   def Uv.syntax_for_file file_name
     init_syntaxes unless @syntaxes
     first_line = ""
@@ -70,7 +80,7 @@ module Uv
       if value.fileTypes
         value.fileTypes.each do |t|
           if t == File.basename( file_name ) || t == File.extname( file_name )[1..-1]
-            result << [key, value] 
+            result << [key, value]
             assigned = true
             break
           end
@@ -78,19 +88,21 @@ module Uv
       end
       unless assigned
         if value.firstLineMatch && value.firstLineMatch =~ first_line
-          result << [key, value] 
+          result << [key, value]
         end
       end
     end
     result
   end
 
+  # Parses <arg1> text using RenderProcessor.load(Textpow::SyntaxNode.parse(text)), returns the vailid <output>
   def Uv.parse text, output = "xhtml", syntax_name = nil, line_numbers = false, render_style = nil, headers = false
     RenderProcessor.load(output, render_style, line_numbers, headers) do |processor|
       syntax_node_for(syntax_name).parse(text, processor)
     end.string
   end
 
+  # Parses <arg1> text with Textpow::DebugProcessor, using the given syntax
   def Uv.debug text, syntax_name
     syntax_node_for(syntax_name).parse(text, Textpow::DebugProcessor.new)
   end

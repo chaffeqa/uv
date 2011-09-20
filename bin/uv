@@ -12,7 +12,7 @@ require 'optparse'
 require 'ostruct'
 
 o = OpenStruct.new
-o.copy_files = false 
+o.copy_files = false
 o.output = "xhtml"
 o.headers = false
 o.theme = "espresso_libre"
