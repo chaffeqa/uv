@@ -19,7 +19,7 @@ module Uv
   self.default_style = 'mac_classic'
   self.syntaxes      = {}
 
-  # Returns the root path for Uv ['bin','lib'...]
+  # Returns the root path for Uv: ['bin','lib'...]
   def Uv.path
     result = []
     result << File.join(File.dirname(__FILE__), ".." )
