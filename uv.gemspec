@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
     s.authors           = ["spox","chaffeqa"]
     s.email             = ["spox@modspox.com","chaffeqa@gmail.com"]
     s.homepage          = "https://github.com/chaffeqa/uv"
-    s.description       = "Ruby syntax highlighting"
+    s.description       = "Ruby powered syntax highlighting.  Ruby 1.9 port of Ultraviolet"
     s.summary           = %q(ultraviolet in ruby 1.9+)
 
     s.rubyforge_project = "uv"
