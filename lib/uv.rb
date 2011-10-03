@@ -25,10 +25,14 @@ module Uv
     result << File.join(File.dirname(__FILE__), ".." )
   end
 
-  # Returns the Textpow::SyntaxNode for this syntax; 
+  # Returns the Textpow::SyntaxNode for this syntax;
   # @raise ArgumentError if no syntax is found
   # Ex: syntax_node_for('ruby') => Textpow::SyntaxNode.load('ruby.syntax')
   def self.syntax_node_for(syntax)
+    if syntax == '' or syntax.nil?
+      puts "No syntax supplied, defaulting to 'plain_text' syntax"
+      syntax = "plain_text"
+    end
     if !@syntaxes.key?(syntax)
       filename = File.join(@syntax_path, "#{syntax}.syntax")
       @syntaxes[syntax] = if File.exist?(filename)
@@ -38,7 +42,7 @@ module Uv
       end
     end
     if !@syntaxes[syntax]
-      raise ArgumentError, "No #{syntax}.syntax file in #{@syntax_path}"
+      raise ArgumentError, "Syntax not found.  No #{syntax}.syntax file in #{@syntax_path}"
     end
     @syntaxes[syntax]
   end
