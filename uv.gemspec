@@ -17,6 +17,8 @@ Gem::Specification.new do |s|
     s.add_dependency    'spox-textpow'
     s.add_dependency    'spox-plist'
 
+    s.add_development_dependency    'rake'
+
     s.files         = `git ls-files`.split("\n").delete_if {|f| f =~ /^broken_syntax/}
     s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
     s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
