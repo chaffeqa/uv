@@ -9,10 +9,10 @@ module Uv
   end
 
   def Uv.find_syntaxes_by_first_line(first_line)
-    return nil if first_line = ''
+    return [] if first_line == ''
     puts "Searching syntaxes by first line..." if @debug
-    @syntaxes.values.compact.each do |syntax_node|
-      return syntax_node if syntax_node && syntax_node.firstLineMatch && syntax_node.firstLineMatch =~ first_line
+    @syntaxes.values.compact.collect do |syntax_node|
+      return [syntax_node] if syntax_node && syntax_node.firstLineMatch && syntax_node.firstLineMatch =~ first_line
     end
   end
 
