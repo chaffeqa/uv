@@ -11,6 +11,7 @@ class UvTest < Test::Unit::TestCase
 
   def test_parses_blank
     assert_equal %(<pre class="mac_classic"></pre>), Uv.parse('', 'xhtml', 'css')
+    assert_equal %(<pre class="mac_classic"></pre>), Uv.parse('', 'xhtml', 'bad_extension')
   end
 
   def test_init_syntaxes
