@@ -1,4 +1,5 @@
 #encoding: ascii-8bit
+require 'uv/engine' if defined?(Rails)
 require 'fileutils'
 require 'textpow'
 require 'uv/render_processor'
@@ -6,7 +7,6 @@ require "uv/version"
 require "uv/finding_syntax_nodes"
 require "uv/syntaxes"
 require 'uv/utility'
-require 'uv/engine' if defined?(Rails)
 
 
 module Uv
