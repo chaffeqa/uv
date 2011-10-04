@@ -26,9 +26,9 @@ module Uv
     init_syntaxes unless @syntaxes
     syntaxes = []
     extensions.each do |ext|
-      syntaxes << find_syntaxes_by_ext(ext)
+      syntaxes += find_syntaxes_by_ext(ext)
     end
-    syntaxes << find_syntaxes_by_first_line(first_line)
+    syntaxes += find_syntaxes_by_first_line(first_line)
     syntaxes
   end
 

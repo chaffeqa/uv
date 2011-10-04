@@ -51,8 +51,10 @@ module Uv
 
   # Parses <arg1> text using RenderProcessor.load(Textpow::SyntaxNode.parse(text)), returns the vailid <output>
   def Uv.parse text, output = "xhtml", syntax_name = nil, line_numbers = false, render_style = nil, headers = false
+    syntaxes = find_syntaxes([syntax_name], get_first_line(text))
+    syntax_node = syntaxes.first
     RenderProcessor.load(output, render_style, line_numbers, headers) do |processor|
-      find_syntaxes([syntax_name], get_first_line(text)).parse(text, processor)
+      syntax_node.parse(text, processor)
     end.string
   end
 

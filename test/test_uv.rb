@@ -14,4 +14,10 @@ class UvTest < Test::Unit::TestCase
     assert_kind_of Textpow::DebugProcessor, Uv.debug('', 'css')
   end
 
+  def test_find_syntaxes_by_ext
+    assert_instance_of Array, Uv.find_syntaxes_by_ext("css")
+    assert_instance_of Textpow::SyntaxNode, Uv.find_syntaxes_by_ext("css").first
+    assert_equal "CSS", Uv.find_syntaxes_by_ext("css").first.name
+  end
+
 end
