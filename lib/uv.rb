@@ -3,14 +3,15 @@ require 'fileutils'
 require 'textpow'
 require 'uv/render_processor'
 require "uv/version"
-require "uv/finding_syntaxes"
+require "uv/finding_syntax_nodes"
+require "uv/syntaxes"
 require 'uv/utility'
 require 'uv/engine' if defined?(Rails)
 
 
 module Uv
   class << self
-    attr_accessor :render_path, :theme_path, :syntax_path, :default_style, :syntaxes
+    attr_accessor :render_path, :theme_path, :syntax_path, :default_style, :syntaxes, :debug
   end
 
   self.syntax_path   = File.join(File.dirname(__FILE__), '..', 'syntax')
@@ -27,6 +28,17 @@ module Uv
   end
 
 
+  # Returns the list of file names in the syntax dir (without '.syntax' extension)
+  def Uv.syntax_names
+    Dir.glob( File.join(@syntax_path, '*.syntax') ).collect do |f|
+      File.basename(f, '.syntax')
+    end
+  end
+
+  def Uv.debug=(value)
+    @debug=value
+  end
+
   # Copies files from the [ruby-uv/render/<arg1>/files/] to the <arg2> output directory
   def Uv.copy_files output, output_dir
     Uv.path.each do |dir|
@@ -35,12 +47,6 @@ module Uv
     end
   end
 
-  # Returns the list of file names[.syntax] in the syntax dir
-  def Uv.syntaxes
-    Dir.glob( File.join(@syntax_path, '*.syntax') ).collect do |f|
-      File.basename(f, '.syntax')
-    end
-  end
 
   # Returns the list of .css files in the theme directory
   def Uv.themes
@@ -52,15 +58,16 @@ module Uv
   # Parses <arg1> text using RenderProcessor.load(Textpow::SyntaxNode.parse(text)), returns the vailid <output>
   def Uv.parse text, output = "xhtml", syntax_name = nil, line_numbers = false, render_style = nil, headers = false
     syntaxes = find_syntaxes([syntax_name], get_first_line(text))
-    syntax_node = syntaxes.first
+    return text if syntaxes.empty?
     RenderProcessor.load(output, render_style, line_numbers, headers) do |processor|
-      syntax_node.parse(text, processor)
+      syntaxes.first.parse(text, processor)
     end.string
   end
 
   def Uv.get_first_line(text)
-    first_break = text.index(/[\n\r]/) || text.length - 1
-    text[0..first_break].strip
+    stripped_text = text.strip
+    first_break = stripped_text.index(/[\n\r]/) || stripped_text.length - 1
+    stripped_text[0..first_break].strip
   end
 
   # Parses <arg1> text with Textpow::DebugProcessor, using the given syntax

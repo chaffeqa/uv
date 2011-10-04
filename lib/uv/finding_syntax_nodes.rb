@@ -1,36 +1,45 @@
 module Uv
 
   def Uv.find_syntaxes_by_ext(ext)
-    syntaxes = []
-    if !@syntaxes.key?(ext)
-      @syntaxes.each do |syntax_name, syntax_node|
-        syntaxes << syntax_node if syntax_node.fileTypes && syntax_node.fileTypes.include?(ext)
-      end
-      filename = File.join(@syntax_path, "#{ext}.syntax")
-      syntaxes << Textpow::SyntaxNode.load(filename) if File.exist?(filename)
-    else
-      syntaxes << @syntaxes[ext]
-    end
-    syntaxes
+    return [load_syntax(ext)] if @syntaxes.key?(ext)
+    puts "No syntax found... loading all syntaxes (including all syntax.fileTypes)" if @debug
+    load_all_syntaxes
+    return [load_syntax(ext)] if @syntaxes.key?(ext)
+    []
   end
 
   def Uv.find_syntaxes_by_first_line(first_line)
-    syntaxes = []
-    @syntaxes.each do |syntax_name, syntax_node|
-      syntaxes << syntax_node if syntax_node.firstLineMatch && syntax_node.firstLineMatch =~ first_line
+    return nil if first_line = ''
+    puts "Searching syntaxes by first line..." if @debug
+    @syntaxes.values.compact.each do |syntax_node|
+      return syntax_node if syntax_node && syntax_node.firstLineMatch && syntax_node.firstLineMatch =~ first_line
     end
+  end
+
+  def Uv.find_syntaxes(extensions=[], first_line='', slow_search=false)
+    puts "Finding syntaxes for: Extensions: [#{extensions.join(', ')}], First Line: '#{first_line.inspect}'" if @debug
+    init_syntaxes if @syntaxes.empty?
+    syntaxes = []; extensions.delete(''); extensions.compact!
+    case slow_search
+    when false
+       syntaxes << load_syntax(extensions.first) unless extensions.empty?
+    when true
+      syntaxes += extensions.collect {|ext| find_syntaxes_by_ext(ext) }.flatten.compact
+      syntaxes += find_syntaxes_by_first_line(first_line) if syntaxes.empty?
+    end
+    syntaxes.compact!
+    puts "Syntaxes found: [#{syntaxes.collect(&:name).join(', ')}]" if @debug and not syntaxes.empty?
+    puts "Uv Error: No syntax match found for '#{extensions.join(', ')}', defaulting to 'plain_text' syntax" if @debug and syntaxes.empty?
     syntaxes
   end
 
-  def Uv.find_syntaxes(extensions=[], first_line='')
-    init_syntaxes unless @syntaxes
-    syntaxes = []
-    extensions.each do |ext|
-      syntaxes += find_syntaxes_by_ext(ext)
-    end
-    syntaxes += find_syntaxes_by_first_line(first_line)
-    syntaxes
-  end
+
+
+
+
+
+
+
 
 
   # Returns the Textpow::SyntaxNode for this syntax;
