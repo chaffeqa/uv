@@ -38,7 +38,7 @@ module Uv
     rescue => e
       puts "Error in loading syntax: #{syntax_name}.  Returning: #{@syntaxes[syntax_name].class}.  Error: #{e.message}" if @debug
     end
-    return @syntaxes[syntax_name]
+    @syntaxes[syntax_name]
   end
 
   def Uv.load_syntax_declared_file_types(syntax_node)

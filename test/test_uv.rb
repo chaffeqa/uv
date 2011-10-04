@@ -22,16 +22,15 @@ class UvTest < Test::Unit::TestCase
   end
 
   def test_find_syntaxes_by_ext
-    Uv.init_syntaxes
     assert_instance_of Array, Uv.find_syntaxes_by_ext("css")
     assert_instance_of Textpow::SyntaxNode, Uv.find_syntaxes_by_ext("css").first
     assert_equal "CSS", Uv.find_syntaxes_by_ext("css").first.name
   end
 
   def test_find_syntaxes
-    assert_equal [], Uv.find_syntaxes(["not_a_syntax_ext"])
-    assert_equal [], Uv.find_syntaxes([''])
-    assert_equal [], Uv.find_syntaxes([])
+    assert_equal "Plain Text", Uv.find_syntaxes(["not_a_syntax_ext"]).first.name
+    assert_equal "Plain Text", Uv.find_syntaxes(['']).first.name
+    assert_equal "Plain Text", Uv.find_syntaxes([]).first.name
   end
 
 end

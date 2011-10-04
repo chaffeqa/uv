@@ -19,18 +19,24 @@ module Uv
   def Uv.find_syntaxes(extensions=[], first_line='', slow_search=false)
     puts "Finding syntaxes for: Extensions: [#{extensions.join(', ')}], First Line: '#{first_line.inspect}'" if @debug
     init_syntaxes if @syntaxes.empty?
-    syntaxes = []; extensions.delete(''); extensions.compact!
+    syntaxes_found = []; extensions.delete(''); extensions.compact!
     case slow_search
     when false
-       syntaxes << load_syntax(extensions.first) unless extensions.empty?
+       syntaxes_found << load_syntax(extensions.first) unless extensions.empty?
     when true
-      syntaxes += extensions.collect {|ext| find_syntaxes_by_ext(ext) }.flatten.compact
-      syntaxes += find_syntaxes_by_first_line(first_line) if syntaxes.empty?
+      syntaxes_found += extensions.collect {|ext| find_syntaxes_by_ext(ext) }.flatten.compact
+      syntaxes_found += find_syntaxes_by_first_line(first_line) if syntaxes_found.empty?
     end
-    syntaxes.compact!
-    puts "Syntaxes found: [#{syntaxes.collect(&:name).join(', ')}]" if @debug and not syntaxes.empty?
-    puts "Uv Error: No syntax match found for '#{extensions.join(', ')}', defaulting to 'plain_text' syntax" if @debug and syntaxes.empty?
-    syntaxes
+    syntaxes_found.compact!
+    syntaxes_found << default_syntax(extensions) if syntaxes_found.empty?
+    puts "Syntaxes found: [#{syntaxes_found.collect(&:name).join(', ')}]" if @debug and not syntaxes_found.empty?
+    syntaxes_found
+  end
+
+  def Uv.default_syntax(extensions)
+    puts "Uv Error: No syntax match found for '#{extensions.join(', ')}', defaulting to 'plain_text' syntax" if @debug
+    raise "Uv Error: Syntax files failed to load (No 'plain_text' parser was loaded).  Loaded syntaxes: [#{@syntaxes.keys.join(', ')}]" unless load_syntax('plain_text')
+    load_syntax('plain_text')
   end
 
 
